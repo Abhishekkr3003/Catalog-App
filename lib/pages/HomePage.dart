@@ -12,7 +12,14 @@ class HomePage extends StatelessWidget {
       drawer: Drawer(),
       body: Center(
         child: Container(
-          child: Text("This is $toBePrinted"),
+          child: Text(
+            "This is $toBePrinted",
+            style: TextStyle(
+              color: Colors.purple,
+              fontStyle: FontStyle.italic,
+            ),
+            textScaleFactor: 2.0,
+          ),
         ),
       ),
     );
