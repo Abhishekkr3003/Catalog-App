@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_catalog/pages/loginPage.dart';
+import 'package:flutter_catalog/utils/routes.dart';
 import 'pages/HomePage.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -14,7 +15,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       themeMode: ThemeMode.light,
       theme: ThemeData(
-        primarySwatch: Colors.purple,
+        primarySwatch: Colors.deepPurple,
         fontFamily: GoogleFonts.lato().fontFamily,
         //primaryTextTheme: GoogleFonts.latoTextTheme()
       ),
@@ -22,7 +23,8 @@ class MyApp extends StatelessWidget {
       initialRoute: "/loginPage", // By default ye hi hota hai
       routes: {
         "/": (context) => HomePage(),
-        "/loginPage": (context) => LoginPage(),
+        MyRoutes.loginPage: (context) => LoginPage(),
+        MyRoutes.homePage: (context) => HomePage(),
       },
     );
   }
