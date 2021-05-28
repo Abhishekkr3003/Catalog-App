@@ -2,11 +2,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_catalog/models/catalog.dart';
-import 'package:flutter_catalog/widgets/drawer.dart';
-// import 'package:flutter_catalog/widgets/listItemWidget.dart';
+import 'package:flutter_catalog/utils/themes.dart';
+import 'package:flutter_catalog/widgets/HomePageWidgets/CatalogHeader.dart';
+import 'package:flutter_catalog/widgets/HomePageWidgets/CatalogShower.dart';
 import 'dart:convert';
-
-import 'package:flutter_catalog/widgets/gridItemWidget.dart';
+import 'package:velocity_x/velocity_x.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -37,39 +37,26 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        actions: [
-          Icon(CupertinoIcons.shopping_cart),
-          SizedBox(width: 10),
-        ],
-        title: Text("Catalog App"),
-      ),
-      drawer: MyDrawer(),
-      body: Container(
-        color: Colors.white,
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: (CatalogModel.item != null && CatalogModel.item!.isNotEmpty)
-              ? GridView.builder(
-                  itemCount: CatalogModel.item!.length,
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2,
-                    mainAxisSpacing: 15,
-                    crossAxisSpacing: 15,
-                  ),
-                  itemBuilder: (context, index) {
-                    final Item item = CatalogModel.item![index];
-                    return GridItemWidget(item: item);
-                  })
-              //  ListView.builder(
-              //     itemCount: CatalogModel.item!.length,
-              //     itemBuilder: (context, index) {
-              //       return ListItemWidget(item: CatalogModel.item![index]);
-              //     },
-              //   )
-              : Center(
-                  child: CircularProgressIndicator(),
-                ),
+      body: SafeArea(
+        bottom: false,
+        child: Container(
+          color: MyThemes.creamColor,
+          padding: EdgeInsets.only(left: 16, top: 16, right: 16),
+          //color: Colors.white,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              CatalogHeader(),
+              20.heightBox,
+              (CatalogModel.item != null && CatalogModel.item!.length > 0)
+                  ? CatalogShower().expand()
+                  : Center(
+                      child: CircularProgressIndicator(
+                        color: MyThemes.darkblue,
+                      ),
+                    ).expand(),
+            ],
+          ),
         ),
       ),
     );
