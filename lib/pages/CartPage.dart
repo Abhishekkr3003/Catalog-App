@@ -47,10 +47,10 @@ class CartPage extends StatelessWidget {
       body: Column(
         children: [
           CartItems().expand(),
-          Divider(
-            color: context.theme.buttonColor,
-            thickness: 2,
-          ),
+          // Divider(
+          //   color: context.theme.buttonColor,
+          //   thickness: 2,
+          // ),
           CartCalc(),
         ],
       ),
@@ -63,7 +63,12 @@ class CartPage extends StatelessWidget {
             "\$99999".text.xl3.color(context.accentColor).bold.make(),
             ElevatedButton(
               onPressed: () {
-                Fluttertoast.showToast(msg: "Coming Soon");
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    backgroundColor: context.accentColor,
+                    content: "Coming Soon...".text.xl.make(),
+                  ),
+                );
               },
               child: "Order Now".text.color(MyThemes.creamColor).make(),
               style: ButtonStyle(

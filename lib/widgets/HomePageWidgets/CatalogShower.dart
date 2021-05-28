@@ -11,12 +11,12 @@ class CatalogShower extends StatelessWidget {
       itemCount: CatalogModel.items!.length,
       itemBuilder: (context, index) {
         return InkWell(
-          child: ListItemWidget(item: CatalogModel.getByPos(index)),
+          child: ListItemWidget(item: CatalogModel.items![index]),
           onTap: () => Navigator.push(
             context,
             MaterialPageRoute(
               builder: (context) => ProductDetails(
-                item: CatalogModel.getByPos(index),
+                item: CatalogModel.items![index],
               ),
             ),
           ),
