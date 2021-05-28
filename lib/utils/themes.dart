@@ -7,11 +7,18 @@ class MyThemes {
 
   static ThemeData lightTheme(BuildContext context) => ThemeData(
         primarySwatch: Colors.grey,
+        accentColor: MyThemes.darkblue,
+        primaryColor: Colors.black,
+        cardColor: Colors.white,
+        buttonColor: MyThemes.darkblue,
+        canvasColor: MyThemes.creamColor,
         fontFamily: GoogleFonts.poppins().fontFamily,
+        //indicatorColor: MyThemes.darkblue,
         appBarTheme: AppBarTheme(
           color: Colors.white,
           centerTitle: true,
           elevation: 0,
+          iconTheme: IconThemeData(color: darkblue),
           actionsIconTheme: IconThemeData(
             color: MyThemes.darkblue,
           ),
@@ -20,6 +27,23 @@ class MyThemes {
         ),
         //primaryTextTheme: GoogleFonts.latoTextTheme()
       );
-  static ThemeData darkTheme(BuildContext context) =>
-      ThemeData(brightness: Brightness.dark);
+  static ThemeData darkTheme(BuildContext context) => ThemeData(
+        brightness: Brightness.dark,
+        fontFamily: GoogleFonts.poppins().fontFamily,
+        accentColor: MyThemes.creamColor,
+        primaryColor: MyThemes.creamColor,
+        cardColor: Colors.black,
+        buttonColor: Colors.indigo.shade700,
+        canvasColor: Colors.grey.shade900,
+        //indicatorColor: MyThemes.creamColor,
+        appBarTheme: AppBarTheme(
+          color: Colors.black,
+          centerTitle: true,
+          elevation: 0,
+          iconTheme: IconThemeData(color: creamColor),
+          actionsIconTheme: IconThemeData(
+            color: MyThemes.creamColor,
+          ),
+        ),
+      );
 }

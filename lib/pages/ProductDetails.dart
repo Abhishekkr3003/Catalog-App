@@ -13,18 +13,19 @@ class ProductDetails extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      
+      backgroundColor: context.canvasColor,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
       ),
-      backgroundColor: MyThemes.creamColor,
       body: SafeArea(
         bottom: false,
         child: Column(
           children: [
             Hero(
               tag: Key(item.id.toString()),
-              child: Image.network(item.image),
+              child: Image.network(
+                item.image,
+              ),
             ).h32(context).p16(),
             Expanded(
               child: VxArc(
@@ -39,7 +40,7 @@ class ProductDetails extends StatelessWidget {
                           .text
                           .bold
                           .xl3
-                          .color(MyThemes.darkblue)
+                          .color(context.accentColor)
                           .make(),
                       Text(
                         "${item.desc}",
@@ -54,7 +55,7 @@ class ProductDetails extends StatelessWidget {
                           .expand(),
                     ],
                   ).pOnly(top: 40, left: 12, right: 12),
-                  color: Colors.white,
+                  color: context.cardColor,
                 ),
                 height: 30,
               ),
@@ -62,28 +63,32 @@ class ProductDetails extends StatelessWidget {
           ],
         ),
       ),
-      bottomNavigationBar: ButtonBar(
-        alignment: MainAxisAlignment.spaceBetween,
-        buttonPadding: Vx.mH0,
-        children: [
-          "\$${item.price}".text.xl3.rose900.bold.make(),
-          ElevatedButton(
-            onPressed: () {
-              Fluttertoast.showToast(msg: item.name);
-            },
-            child: Icon(
-              CupertinoIcons.cart_badge_plus,
-              color: MyThemes.creamColor,
-              size: 20,
-            ),
-            style: ButtonStyle(
-              backgroundColor: MaterialStateProperty.all(MyThemes.darkblue),
-              shape: MaterialStateProperty.all(StadiumBorder()),
-              //fixedSize: MaterialStateProperty.all(value)
-            ),
-          ).wh(100, 50),
-        ],
-      ).p12(),
+      bottomNavigationBar: Container(
+        color: context.cardColor,
+        child: ButtonBar(
+          alignment: MainAxisAlignment.spaceBetween,
+          buttonPadding: Vx.mH0,
+          children: [
+            "\$${item.price}".text.xl3.color(context.accentColor).bold.make(),
+            ElevatedButton(
+              onPressed: () {
+                Fluttertoast.showToast(msg: item.name);
+              },
+              child: Icon(
+                CupertinoIcons.cart_badge_plus,
+                color: MyThemes.creamColor,
+                size: 20,
+              ),
+              style: ButtonStyle(
+                backgroundColor:
+                    MaterialStateProperty.all(context.theme.buttonColor),
+                shape: MaterialStateProperty.all(StadiumBorder()),
+                //fixedSize: MaterialStateProperty.all(value)
+              ),
+            ).wh(100, 50),
+          ],
+        ).p12(),
+      ),
     );
   }
 }

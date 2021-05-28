@@ -22,6 +22,6 @@ class ListItemWidget extends StatelessWidget {
           ProductInfo(item: item),
         ],
       ),
-    ).white.rounded.square(100).make().py4();
+    ).color(context.cardColor).rounded.square(100).make().py4();
   }
 }

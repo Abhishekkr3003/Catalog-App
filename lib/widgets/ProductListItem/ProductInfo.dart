@@ -17,17 +17,20 @@ class ProductInfo extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          item.name.text.bold.lg.make(),
+          item.name.text.bold.color(context.primaryColor).make(),
           Text(
             item.desc,
-            style: Theme.of(context).textTheme.caption,
+            style: Theme.of(context)
+                .textTheme
+                .caption!
+                .merge(TextStyle(color: context.primaryColor)),
           ),
           Expanded(
             child: ButtonBar(
               alignment: MainAxisAlignment.spaceBetween,
               buttonPadding: Vx.mH0,
               children: [
-                "\$${item.price}".text.bold.make(),
+                "\$${item.price}".text.color(context.primaryColor).bold.make(),
                 SizedBox(
                   width: 50,
                   height: 30,
@@ -41,8 +44,8 @@ class ProductInfo extends StatelessWidget {
                       size: 20,
                     ),
                     style: ButtonStyle(
-                      backgroundColor:
-                          MaterialStateProperty.all(MyThemes.darkblue),
+                      backgroundColor: MaterialStateProperty.all(context.theme
+                          .buttonColor), // ! to remember sometimes context.buttonColor or context.theme.buttonColor
                       shape: MaterialStateProperty.all(StadiumBorder()),
                       //fixedSize: MaterialStateProperty.all(value)
                     ),

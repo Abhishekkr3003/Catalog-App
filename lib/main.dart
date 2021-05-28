@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_catalog/pages/CartPage.dart';
-import 'package:flutter_catalog/pages/ProductDetails.dart';
 import 'package:flutter_catalog/pages/loginPage.dart';
 import 'package:flutter_catalog/utils/routes.dart';
 import 'package:flutter_catalog/utils/themes.dart';
@@ -15,7 +14,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      themeMode: ThemeMode.light,
+      themeMode: ThemeMode.system,
       theme: MyThemes.lightTheme(context),
       darkTheme: MyThemes.darkTheme(context),
       initialRoute: MyRoutes.homePage, // By default ye hi hota hai

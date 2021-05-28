@@ -2,7 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_catalog/utils/routes.dart';
 import 'package:flutter_catalog/utils/themes.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:velocity_x/velocity_x.dart';
 
 class CatalogHeader extends StatelessWidget {
@@ -14,17 +13,18 @@ class CatalogHeader extends StatelessWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            "Catalog App".text.xl4.color(MyThemes.darkblue).bold.make(),
+            "Catalog App".text.xl4.color(context.accentColor).bold.make(),
             InkWell(
               onTap: () => Navigator.pushNamed(context, MyRoutes.cartPage),
               child: Icon(
                 CupertinoIcons.cart,
                 size: 40,
+                color: context.theme.appBarTheme.actionsIconTheme!.color,
               ),
             )
           ],
         ),
-        "Trending".text.xl2.bold.make(),
+        "Trending".text.color(context.primaryColor).xl2.bold.make(),
       ],
     );
   }

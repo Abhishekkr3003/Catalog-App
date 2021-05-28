@@ -40,13 +40,17 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButton: FloatingActionButton(
-        child: Icon(CupertinoIcons.cart),
+        backgroundColor: context.theme.buttonColor,
+        child: Icon(
+          CupertinoIcons.cart,
+          color: MyThemes.creamColor,
+        ),
         onPressed: () => Navigator.pushNamed(context, MyRoutes.cartPage),
       ),
       body: SafeArea(
         bottom: false,
         child: Container(
-          color: MyThemes.creamColor,
+          color: context.canvasColor,
           padding: EdgeInsets.only(left: 16, top: 16, right: 16),
           //color: Colors.white,
           child: Column(
@@ -58,7 +62,7 @@ class _HomePageState extends State<HomePage> {
                   ? CatalogShower().expand()
                   : Center(
                       child: CircularProgressIndicator(
-                        color: MyThemes.darkblue,
+                        color: context.accentColor,
                       ),
                     ).expand(),
             ],
