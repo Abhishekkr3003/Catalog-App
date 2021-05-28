@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_catalog/models/catalog.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
-class ItemWidget extends StatelessWidget {
+class ListItemWidget extends StatelessWidget {
   final Item item;
 
-  const ItemWidget({Key? key, required this.item}) : super(key: key);
+  const ListItemWidget({Key? key, required this.item}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

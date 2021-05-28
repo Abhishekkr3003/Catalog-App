@@ -3,8 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_catalog/models/catalog.dart';
 import 'package:flutter_catalog/widgets/drawer.dart';
-import 'package:flutter_catalog/widgets/itemWidget.dart';
+// import 'package:flutter_catalog/widgets/listItemWidget.dart';
 import 'dart:convert';
+
+import 'package:flutter_catalog/widgets/gridItemWidget.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -48,12 +50,23 @@ class _HomePageState extends State<HomePage> {
         child: Padding(
           padding: const EdgeInsets.all(16.0),
           child: (CatalogModel.item != null && CatalogModel.item!.isNotEmpty)
-              ? ListView.builder(
+              ? GridView.builder(
                   itemCount: CatalogModel.item!.length,
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
+                    mainAxisSpacing: 15,
+                    crossAxisSpacing: 15,
+                  ),
                   itemBuilder: (context, index) {
-                    return ItemWidget(item: CatalogModel.item![index]);
-                  },
-                )
+                    final Item item = CatalogModel.item![index];
+                    return GridItemWidget(item: item);
+                  })
+              //  ListView.builder(
+              //     itemCount: CatalogModel.item!.length,
+              //     itemBuilder: (context, index) {
+              //       return ListItemWidget(item: CatalogModel.item![index]);
+              //     },
+              //   )
               : Center(
                   child: CircularProgressIndicator(),
                 ),
