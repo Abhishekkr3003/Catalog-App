@@ -13,7 +13,7 @@ class MyThemes {
           centerTitle: true,
           elevation: 0,
           actionsIconTheme: IconThemeData(
-            color: Colors.black,
+            color: MyThemes.darkblue,
           ),
 
           //textTheme: Theme.of(context).textTheme,

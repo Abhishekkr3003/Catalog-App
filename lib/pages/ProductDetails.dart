@@ -13,7 +13,10 @@ class ProductDetails extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
+      
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+      ),
       backgroundColor: MyThemes.creamColor,
       body: SafeArea(
         bottom: false,
@@ -44,8 +47,13 @@ class ProductDetails extends StatelessWidget {
                               TextStyle(fontSize: 15),
                             ),
                       ),
+                      "At ea et ipsum et stet takimata amet no sanctus accusam. Takimata magna consetetur sed sit ipsum est. Dolor amet eirmod est gubergren sanctus clita takimata. Kasd erat tempor et."
+                          .text
+                          .justify
+                          .make()
+                          .expand(),
                     ],
-                  ).py64(),
+                  ).pOnly(top: 40, left: 12, right: 12),
                   color: Colors.white,
                 ),
                 height: 30,
