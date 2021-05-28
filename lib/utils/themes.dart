@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:velocity_x/velocity_x.dart';
 
 class MyThemes {
   static Color creamColor = Color(0xfff5f5f5);
@@ -15,6 +16,9 @@ class MyThemes {
         fontFamily: GoogleFonts.poppins().fontFamily,
         //indicatorColor: MyThemes.darkblue,
         appBarTheme: AppBarTheme(
+          textTheme: TextTheme(
+            headline6: GoogleFonts.poppins(color: Vx.black),
+          ),
           color: Colors.white,
           centerTitle: true,
           elevation: 0,
@@ -40,6 +44,9 @@ class MyThemes {
           color: Colors.black,
           centerTitle: true,
           elevation: 0,
+          textTheme: TextTheme(
+            headline6: GoogleFonts.poppins(color: MyThemes.creamColor),
+          ),
           iconTheme: IconThemeData(color: creamColor),
           actionsIconTheme: IconThemeData(
             color: MyThemes.creamColor,

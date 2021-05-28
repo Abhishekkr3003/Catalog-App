@@ -20,10 +20,7 @@ class ProductInfo extends StatelessWidget {
           item.name.text.bold.color(context.primaryColor).make(),
           Text(
             item.desc,
-            style: Theme.of(context)
-                .textTheme
-                .caption!
-                .merge(TextStyle(color: context.primaryColor)),
+            style: Theme.of(context).textTheme.caption,
           ),
           Expanded(
             child: ButtonBar(

@@ -24,7 +24,7 @@ class _HomePageState extends State<HomePage> {
         await rootBundle.loadString("assets/files/catalog.json");
     Map<String, dynamic> decodedJson = jsonDecode(catalogJson);
     var productsData = decodedJson["products"];
-    CatalogModel.item = List.from(productsData)
+    CatalogModel.items = List.from(productsData)
         .map((itemMap) => Item.fromMap(itemMap))
         .toList();
     setState(() {});
@@ -58,7 +58,7 @@ class _HomePageState extends State<HomePage> {
             children: [
               CatalogHeader(),
               20.heightBox,
-              (CatalogModel.item != null && CatalogModel.item!.length > 0)
+              (CatalogModel.items != null && CatalogModel.items!.length > 0)
                   ? CatalogShower().expand()
                   : Center(
                       child: CircularProgressIndicator(

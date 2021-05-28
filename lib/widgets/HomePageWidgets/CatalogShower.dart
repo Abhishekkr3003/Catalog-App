@@ -8,17 +8,15 @@ class CatalogShower extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListView.builder(
       shrinkWrap: true,
-      itemCount: CatalogModel.item!.length,
+      itemCount: CatalogModel.items!.length,
       itemBuilder: (context, index) {
         return InkWell(
-          child: ListItemWidget(
-            item: CatalogModel.item![index],
-          ),
+          child: ListItemWidget(item: CatalogModel.getByPos(index)),
           onTap: () => Navigator.push(
             context,
             MaterialPageRoute(
               builder: (context) => ProductDetails(
-                item: CatalogModel.item![index],
+                item: CatalogModel.getByPos(index),
               ),
             ),
           ),
