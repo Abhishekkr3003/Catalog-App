@@ -1,8 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_catalog/models/catalog.dart';
-import 'package:flutter_catalog/utils/themes.dart';
-import 'package:fluttertoast/fluttertoast.dart';
+import 'package:flutter_catalog/widgets/Cart/AddToCart.dart';
 import 'package:velocity_x/velocity_x.dart';
 
 class ProductDetails extends StatelessWidget {
@@ -70,22 +69,7 @@ class ProductDetails extends StatelessWidget {
           buttonPadding: Vx.mH0,
           children: [
             "\$${item.price}".text.xl3.color(context.accentColor).bold.make(),
-            ElevatedButton(
-              onPressed: () {
-                Fluttertoast.showToast(msg: item.name);
-              },
-              child: Icon(
-                CupertinoIcons.cart_badge_plus,
-                color: MyThemes.creamColor,
-                size: 20,
-              ),
-              style: ButtonStyle(
-                backgroundColor:
-                    MaterialStateProperty.all(context.theme.buttonColor),
-                shape: MaterialStateProperty.all(StadiumBorder()),
-                //fixedSize: MaterialStateProperty.all(value)
-              ),
-            ).wh(100, 50),
+            AddToCart(item: item),
           ],
         ).p12(),
       ),

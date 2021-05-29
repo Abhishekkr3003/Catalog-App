@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_catalog/Core/Store.dart';
 import 'package:velocity_x/velocity_x.dart';
+
+import 'package:flutter_catalog/models/Cart.dart';
 
 class CartCalc extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final CartModel _cartModel = (VxState.store as MyStore).cart;
     return Container(
       color: context.cardColor,
       child: Column(
@@ -12,21 +16,27 @@ class CartCalc extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               "Item Total:".text.xl.make(),
-              "\$9999".text.xl2.make(),
+              VxConsumer(
+                notifications: {},
+                mutations: {RemoveMutation},
+                builder: (context, status, obj) {
+                  return "\$${_cartModel.totalPrice}".text.xl2.make();
+                },
+              ),
             ],
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               "Delivery Charges:".text.xl.make(),
-              "\$10".text.xl2.make(),
+              "\$${_cartModel.deliveryCharge}".text.xl2.make(),
             ],
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               "Discount:".text.xl.make(),
-              "\$00".text.xl2.make(),
+              "\$${_cartModel.discount}".text.xl2.make(),
             ],
           ),
         ],

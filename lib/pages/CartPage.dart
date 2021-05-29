@@ -1,9 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_catalog/Core/Store.dart';
+import 'package:flutter_catalog/models/Cart.dart';
 import 'package:flutter_catalog/utils/themes.dart';
 import 'package:flutter_catalog/widgets/Cart/CartCalc.dart';
 import 'package:flutter_catalog/widgets/Cart/CartItems.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:velocity_x/velocity_x.dart';
 
 // class CartPage extends StatefulWidget {
@@ -38,6 +39,7 @@ import 'package:velocity_x/velocity_x.dart';
 class CartPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final CartModel _cartModel = (VxState.store as MyStore).cart;
     return Scaffold(
       backgroundColor: context.canvasColor,
       appBar: AppBar(
@@ -60,7 +62,18 @@ class CartPage extends StatelessWidget {
           alignment: MainAxisAlignment.spaceBetween,
           buttonPadding: Vx.mH0,
           children: [
-            "\$99999".text.xl3.color(context.accentColor).bold.make(),
+            VxConsumer(
+              notifications: {},
+              mutations: {RemoveMutation},
+              builder: (context, status, obj) {
+                return "\$${_cartModel.grandTotal}"
+                    .text
+                    .xl3
+                    .color(context.accentColor)
+                    .bold
+                    .make();
+              },
+            ),
             ElevatedButton(
               onPressed: () {
                 ScaffoldMessenger.of(context).showSnackBar(

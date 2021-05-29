@@ -6,7 +6,6 @@ import 'package:flutter_catalog/utils/routes.dart';
 import 'package:flutter_catalog/utils/themes.dart';
 import 'package:flutter_catalog/widgets/HomePageWidgets/CatalogHeader.dart';
 import 'package:flutter_catalog/widgets/HomePageWidgets/CatalogShower.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'dart:convert';
 import 'package:velocity_x/velocity_x.dart';
 

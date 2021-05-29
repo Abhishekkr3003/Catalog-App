@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:flutter_catalog/Core/Store.dart';
 import 'package:flutter_catalog/models/catalog.dart';
 import 'package:velocity_x/velocity_x.dart';
 
@@ -15,11 +15,31 @@ class CartModel {
   num get totalPrice =>
       items.fold(0, (previousValue, element) => previousValue + element.price);
 
-  void addToCart(Item item) {
-    _itemIds.add(item.id);
-  }
+  num get discount => 0;
+  num get deliveryCharge => 0;
+  num get grandTotal => totalPrice - discount + deliveryCharge;
+}
 
-  void deleteFromCart(Item item) {
-    _itemIds.remove(item.id);
+class AddMutation extends VxMutation<MyStore> {
+  final Item item;
+
+  AddMutation(this.item);
+  @override
+  perform() {
+    store!.cart._itemIds.add(item.id);
+    throw UnimplementedError();
   }
 }
+
+class RemoveMutation extends VxMutation<MyStore> {
+  final Item item;
+
+  RemoveMutation(this.item);
+  @override
+  perform() {
+    store!.cart._itemIds.remove(item.id);
+    throw UnimplementedError();
+  }
+}
+
+

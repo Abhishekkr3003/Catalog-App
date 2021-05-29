@@ -1,20 +1,55 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_catalog/Core/Store.dart';
+import 'package:flutter_catalog/models/Cart.dart';
+import 'package:flutter_catalog/models/catalog.dart';
+import 'package:flutter_catalog/pages/ProductDetails.dart';
+import 'package:flutter_catalog/widgets/Cart/CartListTile.dart';
 import 'package:velocity_x/velocity_x.dart';
 
-class CartItems extends StatefulWidget {
-  @override
-  _CartItemsState createState() => _CartItemsState();
-}
-
-class _CartItemsState extends State<CartItems> {
+class CartItems extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
-      itemCount: 100,
-      itemBuilder: (context, index) => ListTile(
-        leading: Icon(Icons.done_outline_sharp),
-        title: "item 1".text.make(),
-        trailing: Icon(Icons.remove_circle_outlined),
+    VxState.watch(context, on: [RemoveMutation]);
+    final CartModel _cartModel = (VxState.store as MyStore).cart;
+    return _cartModel.items.isEmpty
+        ? EmptyCart()
+        : ListView.builder(
+            itemCount: _cartModel.items.length,
+            itemBuilder: (context, index) => InkWell(
+              child: CartListTile(_cartModel.items[index], _cartModel),
+              onTap: () => Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => ProductDetails(
+                    item: _cartModel.items[index],
+                  ),
+                ),
+              ),
+            ),
+          );
+  }
+}
+
+class EmptyCart extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Container(
+            width: 200,
+            height: 200,
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(200),
+              child: Image.asset(
+                "assets/images/EmptyCart.png",
+                fit: BoxFit.fill,
+              ),
+            ),
+          ),
+          "Cart is Empty".text.xl3.makeCentered().p16(),
+        ],
       ),
     );
   }
