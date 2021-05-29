@@ -51,6 +51,6 @@ class CartListTile extends StatelessWidget {
         .rounded
         .square(80)
         .make()
-        .pOnly(right: 20, left: 20);
+        .pOnly(right: 20);
   }
 }

@@ -12,7 +12,7 @@ class CartProductImage extends StatelessWidget {
     return Image.network(image)
         .box
         .rounded
-        .color(MyThemes.creamColor)
+        .color(context.theme.indicatorColor)
         .p8
         .make()
         .p12()

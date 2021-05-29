@@ -20,15 +20,11 @@ class CartProductInfo extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              item.name.text.xl.bold
+              item.name.text.xl2.bold
                   .color(context.primaryColor)
                   .make()
                   .expand(),
-              SizedBox(
-                width: 50,
-                height: 40,
-                child: RemoveFromCart(item: item),
-              ).pOnly(top: 10, right: 20),
+              RemoveFromCart(item: item) //.pOnly(top: 10),
             ],
           ),
           "\$${item.price}"

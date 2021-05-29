@@ -2,12 +2,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_catalog/models/catalog.dart';
-import 'package:flutter_catalog/utils/routes.dart';
-import 'package:flutter_catalog/utils/themes.dart';
 import 'package:flutter_catalog/widgets/HomePageWidgets/CatalogHeader.dart';
 import 'package:flutter_catalog/widgets/HomePageWidgets/CatalogShower.dart';
 import 'dart:convert';
 import 'package:velocity_x/velocity_x.dart';
+import 'package:http/http.dart' as http;
 
 class HomePage extends StatefulWidget {
   @override
@@ -16,11 +15,14 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   var toBePrinted = "Android App!";
+  final dataURL = "https://api.jsonbin.io/b/604dbddb683e7e079c4eefd3";
 
   loadData() async {
-    await Future.delayed(Duration(seconds: 5));
-    String catalogJson =
-        await rootBundle.loadString("assets/files/catalog.json");
+    //await Future.delayed(Duration(seconds: 5));
+    // String catalogJson =
+    //     await rootBundle.loadString("assets/files/catalog.json");
+    final response = await http.get(Uri.parse(dataURL));
+    final catalogJson = response.body;
     Map<String, dynamic> decodedJson = jsonDecode(catalogJson);
     var productsData = decodedJson["products"];
     CatalogModel.items = List.from(productsData)
@@ -38,14 +40,14 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: context.theme.buttonColor,
-        child: Icon(
-          CupertinoIcons.cart,
-          color: MyThemes.creamColor,
-        ),
-        onPressed: () => Navigator.pushNamed(context, MyRoutes.cartPage),
-      ),
+      // floatingActionButton: FloatingActionButton(
+      //   backgroundColor: context.theme.buttonColor,
+      //   child: Icon(
+      //     CupertinoIcons.cart,
+      //     color: MyThemes.creamColor,
+      //   ),
+      //   onPressed: () => Navigator.pushNamed(context, MyRoutes.cartPage),
+      // ),
       body: SafeArea(
         bottom: false,
         child: Container(
