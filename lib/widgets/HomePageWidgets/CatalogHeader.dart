@@ -15,7 +15,7 @@ class CatalogHeader extends StatelessWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            "Catalog App".text.xl4.color(context.accentColor).bold.make(),
+            "Cataloap".text.xl4.color(context.accentColor).bold.make(),
             SizedBox(
               height: 50,
               width: 50,

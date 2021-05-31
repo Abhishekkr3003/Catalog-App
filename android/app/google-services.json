@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "425750529459",
+    "project_id": "cataloap",
+    "storage_bucket": "cataloap.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:425750529459:android:8234aa289836ad10d437c6",
+        "android_client_info": {
+          "package_name": "com.example.flutter_catalog"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "425750529459-n42cvq1qiqtu0qjjtqnoj81aq9gc2o95.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDgu-0a3wDtcn3rt3Dynjwq_waZJ2zqX68"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "425750529459-n42cvq1qiqtu0qjjtqnoj81aq9gc2o95.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

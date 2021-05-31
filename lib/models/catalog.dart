@@ -1,4 +1,8 @@
+import 'dart:collection';
 import 'dart:convert';
+
+import 'package:flutter_catalog/Core/Store.dart';
+import 'package:velocity_x/velocity_x.dart';
 
 class CatalogModel {
   static List<Item>? items;
@@ -98,5 +102,20 @@ class Item {
         color.hashCode ^
         image.hashCode ^
         price.hashCode;
+  }
+}
+
+class SearchMutation extends VxMutation<MyStore> {
+  final String query;
+
+  SearchMutation(this.query);
+  @override
+  perform() {
+    store!.items = query.length >= 1
+        ? CatalogModel.items!
+            .where((element) =>
+                element.name.toLowerCase().contains(query.toLowerCase()))
+            .toList()
+        : CatalogModel.items;
   }
 }

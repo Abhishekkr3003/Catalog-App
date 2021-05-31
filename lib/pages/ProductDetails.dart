@@ -47,11 +47,11 @@ class ProductDetails extends StatelessWidget {
                               TextStyle(fontSize: 15),
                             ),
                       ),
-                      "At ea et ipsum et stet takimata amet no sanctus accusam. Takimata magna consetetur sed sit ipsum est. Dolor amet eirmod est gubergren sanctus clita takimata. Kasd erat tempor et."
-                          .text
-                          .justify
-                          .make()
-                          .expand(),
+                      // "At  takimata amet no sanctus accusam. Takimata magna consetetur sed sit ipsum est. Dolor amet eirmod est gubergren sanctus clita takimata. Kasd erat tempor et."
+                      //     .text
+                      //     .justify
+                      //     .make()
+                      //     .expand(),
                     ],
                   ).pOnly(top: 40, left: 12, right: 12),
                   color: context.cardColor,

@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_catalog/Core/Store.dart';
 import 'package:flutter_catalog/models/catalog.dart';
 import 'package:flutter_catalog/widgets/HomePageWidgets/CatalogHeader.dart';
 import 'package:flutter_catalog/widgets/HomePageWidgets/CatalogShower.dart';
@@ -28,6 +29,7 @@ class _HomePageState extends State<HomePage> {
     CatalogModel.items = List.from(productsData)
         .map((itemMap) => Item.fromMap(itemMap))
         .toList();
+    (VxState.store as MyStore).items = CatalogModel.items;
     setState(() {});
   }
 
@@ -58,6 +60,14 @@ class _HomePageState extends State<HomePage> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               CatalogHeader(),
+              CupertinoSearchTextField(
+                style: TextStyle(
+                  color: context.primaryColor,
+                ),
+                onChanged: (value) {
+                  SearchMutation(value);
+                },
+              ).pOnly(top: 12),
               20.heightBox,
               (CatalogModel.items != null && CatalogModel.items!.length > 0)
                   ? CatalogShower().expand()

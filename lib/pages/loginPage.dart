@@ -17,7 +17,7 @@ class _LoginPageState extends State<LoginPage> {
       setState(() {
         forAnimation = true;
       });
-      await Future.delayed(Duration(seconds: 1));
+      //await Future.delayed(Duration(seconds: 1));
       await Navigator.pushNamed(context, MyRoutes.homePage);
       setState(() {
         forAnimation = false;
