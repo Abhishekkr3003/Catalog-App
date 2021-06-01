@@ -1,8 +1,11 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_catalog/Core/Store.dart';
 import 'package:flutter_catalog/models/catalog.dart';
+import 'package:flutter_catalog/utils/routes.dart';
+import 'package:flutter_catalog/utils/themes.dart';
 import 'package:flutter_catalog/widgets/HomePageWidgets/CatalogHeader.dart';
 import 'package:flutter_catalog/widgets/HomePageWidgets/CatalogShower.dart';
 import 'dart:convert';
@@ -42,14 +45,14 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // floatingActionButton: FloatingActionButton(
-      //   backgroundColor: context.theme.buttonColor,
-      //   child: Icon(
-      //     CupertinoIcons.cart,
-      //     color: MyThemes.creamColor,
-      //   ),
-      //   onPressed: () => Navigator.pushNamed(context, MyRoutes.cartPage),
-      // ),
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: context.theme.buttonColor,
+        child: Icon(
+          CupertinoIcons.cart,
+          color: MyThemes.creamColor,
+        ),
+        onPressed: () async => await FirebaseAuth.instance.signOut(),
+      ),
       body: SafeArea(
         bottom: false,
         child: Container(

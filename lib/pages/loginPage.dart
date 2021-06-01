@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_catalog/utils/routes.dart';
 import 'package:velocity_x/velocity_x.dart';
@@ -11,18 +12,39 @@ class _LoginPageState extends State<LoginPage> {
   String name = "";
   bool forAnimation = false;
   final _formKey = GlobalKey<FormState>();
+  late TextEditingController emailInputController;
+  late TextEditingController pwdInputController;
+
+  @override
+  initState() {
+    emailInputController = new TextEditingController();
+    pwdInputController = new TextEditingController();
+    super.initState();
+  }
 
   void moveToHome() async {
     if (_formKey.currentState!.validate()) {
       setState(() {
         forAnimation = true;
       });
-      //await Future.delayed(Duration(seconds: 1));
-      await Navigator.pushNamed(context, MyRoutes.homePage);
-      setState(() {
-        forAnimation = false;
-      });
+      try {
+        UserCredential userCredential =
+            await FirebaseAuth.instance.signInWithEmailAndPassword(
+          email: emailInputController.text,
+          password: pwdInputController.text,
+        );
+      } on FirebaseAuthException catch (e) {
+        if (e.code == 'user-not-found') {
+          print('No user found for that email.');
+        } else if (e.code == 'wrong-password') {
+          print('Wrong password provided for that user.');
+        }
+      }
+      //await Navigator.pushNamed(context, MyRoutes.homePage);
     }
+    setState(() {
+      forAnimation = false;
+    });
   }
 
   @override
@@ -64,9 +86,9 @@ class _LoginPageState extends State<LoginPage> {
                     child: Column(
                       children: [
                         TextFormField(
+                          controller: emailInputController,
                           decoration: InputDecoration(
-                              hintText: "Enter Username",
-                              labelText: "Username"),
+                              hintText: "Enter Email", labelText: "Email"),
                           validator: (value) {
                             if (value!.isEmpty) {
                               return "Username can't be empty";
@@ -80,6 +102,7 @@ class _LoginPageState extends State<LoginPage> {
                           },
                         ),
                         TextFormField(
+                          controller: pwdInputController,
                           obscureText: true,
                           decoration: InputDecoration(
                               hintText: "Enter Password",
@@ -97,7 +120,7 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                   ),
                   SizedBox(
-                    height: 40.0,
+                    height: 20.0,
                   ),
                   Material(
                     color: context.theme.buttonColor,
@@ -121,8 +144,16 @@ class _LoginPageState extends State<LoginPage> {
                         height: 40,
                       ),
                     ),
-                  )
-                  // ElevatedButton(
+                  ),
+                  10.heightBox,
+                  InkWell(
+                    child: "Don't have an account?"
+                        .text
+                        .color(context.theme.buttonColor)
+                        .make(),
+                    onTap: () async => await Navigator.pushReplacementNamed(
+                        context, MyRoutes.signUpPage),
+                  ), // ElevatedButton(
                   //     child: Text(
                   //       "Login",
                   //       style: TextStyle(fontSize: 15),
