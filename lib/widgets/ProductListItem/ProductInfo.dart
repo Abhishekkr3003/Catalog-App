@@ -17,26 +17,16 @@ class ProductInfo extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           item.name.text.bold.color(context.primaryColor).make(),
-          Text(
-            item.desc,
-            style: Theme.of(context).textTheme.caption,
-          ),
-          Expanded(
-            child: ButtonBar(
-              alignment: MainAxisAlignment.spaceBetween,
-              buttonPadding: Vx.mH0,
-              children: [
-                "\$${item.price}".text.color(context.primaryColor).bold.make(),
-                SizedBox(
-                  width: 50,
-                  height: 30,
-                  child: AddToCart(item: item),
-                )
-              ],
-            ),
-          )
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: [
+              "\$${item.price}".text.color(context.primaryColor).bold.make(),
+              SizedBox(width: 50, height: 30, child: AddToCart(item: item)),
+            ],
+          ).pOnly(right: 12)
         ],
-      ).box.p3.make().px8(),
+      ),
     );
   }
 }

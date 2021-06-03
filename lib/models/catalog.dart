@@ -19,7 +19,7 @@ class Item {
   final int id;
   final String name;
   final String desc;
-  final String color;
+  final String category;
   final String image;
   final num price;
 
@@ -27,7 +27,7 @@ class Item {
     required this.id,
     required this.name,
     required this.desc,
-    required this.color,
+    required this.category,
     required this.image,
     required this.price,
   });
@@ -36,7 +36,7 @@ class Item {
     int? id,
     String? name,
     String? desc,
-    String? color,
+    String? category,
     String? image,
     num? price,
   }) {
@@ -44,7 +44,7 @@ class Item {
       id: id ?? this.id,
       name: name ?? this.name,
       desc: desc ?? this.desc,
-      color: color ?? this.color,
+      category: category ?? this.category,
       image: image ?? this.image,
       price: price ?? this.price,
     );
@@ -55,7 +55,7 @@ class Item {
       'id': id,
       'name': name,
       'desc': desc,
-      'color': color,
+      'color': category,
       'image': image,
       'price': price,
     };
@@ -64,9 +64,9 @@ class Item {
   factory Item.fromMap(Map<String, dynamic> map) {
     return Item(
       id: map['id'],
-      name: map['name'],
-      desc: map['desc'],
-      color: map['color'],
+      name: map['title'],
+      desc: map['description'],
+      category: map['category'],
       image: map['image'],
       price: map['price'],
     );
@@ -78,7 +78,7 @@ class Item {
 
   @override
   String toString() {
-    return 'Item(id: $id, name: $name, desc: $desc, color: $color, image: $image, price: $price)';
+    return 'Item(id: $id, name: $name, desc: $desc, color: $category, image: $image, price: $price)';
   }
 
   @override
@@ -89,7 +89,7 @@ class Item {
         other.id == id &&
         other.name == name &&
         other.desc == desc &&
-        other.color == color &&
+        other.category == category&&
         other.image == image &&
         other.price == price;
   }
@@ -99,7 +99,7 @@ class Item {
     return id.hashCode ^
         name.hashCode ^
         desc.hashCode ^
-        color.hashCode ^
+        category.hashCode ^
         image.hashCode ^
         price.hashCode;
   }

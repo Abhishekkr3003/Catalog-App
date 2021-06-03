@@ -15,6 +15,8 @@ class MyThemes {
         canvasColor: MyThemes.creamColor,
         fontFamily: GoogleFonts.poppins().fontFamily,
         indicatorColor: Colors.white,
+        backgroundColor: MyThemes.darkblue,
+
         appBarTheme: AppBarTheme(
           textTheme: TextTheme(
             headline6: GoogleFonts.poppins(color: Vx.black),
@@ -40,6 +42,7 @@ class MyThemes {
         buttonColor: Colors.indigo.shade700,
         canvasColor: Colors.grey.shade900,
         indicatorColor: Colors.white,
+        backgroundColor: Colors.black,
         appBarTheme: AppBarTheme(
           color: Colors.black,
           centerTitle: true,

@@ -5,4 +5,5 @@ class MyRoutes {
   static String cartPage = "/cartPage";
   static String signUpPage = "/signUpPage";
   static String splashSceen = "/spashScreen";
+  static String homeScreenShower = "/homeScreenShower";
 }

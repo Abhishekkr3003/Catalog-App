@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_catalog/Core/Store.dart';
 import 'package:flutter_catalog/models/Cart.dart';
 import 'package:flutter_catalog/utils/routes.dart';
+import 'package:flutter_catalog/utils/themes.dart';
 import 'package:velocity_x/velocity_x.dart';
 
 class CatalogHeader extends StatelessWidget {
@@ -42,7 +43,6 @@ class CatalogHeader extends StatelessWidget {
             )
           ],
         ),
-        "Trending".text.color(context.primaryColor).xl2.bold.make(),
       ],
     );
   }
