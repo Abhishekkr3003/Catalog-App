@@ -20,7 +20,7 @@ class CartProductInfo extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              item.name.text.xl2.bold
+              item.name.text.xl.bold
                   .color(context.primaryColor)
                   .make()
                   .expand(),

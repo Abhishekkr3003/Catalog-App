@@ -17,6 +17,7 @@ class _DrawerScreenState extends State<DrawerScreen> {
     } else if (option == 'Donation') {
       Fluttertoast.showToast(msg: "Not available");
     } else if (option == 'Add Product') {
+      Navigator.pushNamed(context, MyRoutes.sellItemPage);
       Fluttertoast.showToast(msg: "Not available");
     } else if (option == 'Favorites') {
       Fluttertoast.showToast(msg: "Not available");

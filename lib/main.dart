@@ -3,6 +3,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_catalog/Core/Store.dart';
 import 'package:flutter_catalog/pages/CartPage.dart';
+import 'package:flutter_catalog/pages/SellItem.dart';
 import 'package:flutter_catalog/pages/SignUpPage.dart';
 import 'package:flutter_catalog/pages/SplashScreen.dart';
 import 'package:flutter_catalog/pages/homepageview.dart';
@@ -28,14 +29,15 @@ class _MyAppState extends State<MyApp> {
   final _navigatorKey = new GlobalKey<NavigatorState>();
 
   Future<void> waitAndNavigate(User? user) async {
-    await Future.delayed(Duration(seconds: 1 ), () {
+    await Future.delayed(Duration(seconds: 1), () {
       if (user == null) {
         print('User is currently signed out!');
         _navigatorKey.currentState!.pushReplacementNamed(MyRoutes.loginPage);
       } else {
         // Future.delayed(Duration(seconds: 5), () {});
         print('User is signed in!');
-        _navigatorKey.currentState!.pushReplacementNamed(MyRoutes.homeScreenShower);
+        _navigatorKey.currentState!
+            .pushReplacementNamed(MyRoutes.homeScreenShower);
       }
     });
   }
@@ -48,7 +50,7 @@ class _MyAppState extends State<MyApp> {
       theme: MyThemes.lightTheme(context),
       navigatorKey: _navigatorKey,
       darkTheme: MyThemes.darkTheme(context),
-      // home: SplashScreen(),
+      // home: SellItem(),
       home: FutureBuilder(
           future: _initFirebaseSdk,
           builder: (_, snapshot) {
@@ -69,7 +71,8 @@ class _MyAppState extends State<MyApp> {
         MyRoutes.cartPage: (context) => CartPage(),
         MyRoutes.signUpPage: (context) => SignUpPage(),
         MyRoutes.splashSceen: (context) => SplashScreen(),
-        MyRoutes.homeScreenShower:(context) => HomeScreenViewer(),
+        MyRoutes.homeScreenShower: (context) => HomeScreenViewer(),
+        MyRoutes.sellItemPage: (context) => SellItem(),
       },
     );
   }

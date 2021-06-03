@@ -45,12 +45,7 @@ class CartListTile extends StatelessWidget {
           ),
           CartProductInfo(item: item),
         ],
-      ),
-    )
-        .color(context.canvasColor)
-        .rounded
-        .square(80)
-        .make()
-        .pOnly(right: 20);
+      ).expand(),
+    ).color(context.canvasColor).rounded.square(130).make().pOnly(right: 20);
   }
 }
