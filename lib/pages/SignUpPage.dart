@@ -1,9 +1,15 @@
+import 'dart:convert';
+import 'dart:io';
+import 'package:dio/dio.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_catalog/utils/routes.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:velocity_x/velocity_x.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:flutter_catalog/models/userData.dart';
+import 'package:flutter_catalog/Core/Store.dart';
 
 class SignUpPage extends StatefulWidget {
   @override
@@ -11,17 +17,60 @@ class SignUpPage extends StatefulWidget {
 }
 
 class _SignUpPageState extends State<SignUpPage> {
-  bool iAgree = true;
+  bool iAgree = false;
   bool forAnimation = false;
   final _formKey2 = GlobalKey<FormState>();
+  static late File selectedImage;
+  final ImagePicker _picker = ImagePicker();
+  bool imageAvlb = false;
   late TextEditingController emailInputController;
   late TextEditingController pwdInputController;
+  late TextEditingController nameController;
+  late TextEditingController aboutController;
+  late TextEditingController cnfpwdController;
 
   @override
   initState() {
     emailInputController = new TextEditingController();
     pwdInputController = new TextEditingController();
+    nameController = new TextEditingController();
+    aboutController = new TextEditingController();
+    cnfpwdController = new TextEditingController();
     super.initState();
+  }
+
+  uploadUserData(String url) async {
+    final UserDetails userDetails = new UserDetails(
+        name: nameController.text,
+        about: aboutController.text,
+        dpURL: imageAvlb
+            ? "https://cataloap-user-image.s3.ap-south-1.amazonaws.com/" +
+                emailInputController.text
+            : "https://cataloap-user-image.s3.ap-south-1.amazonaws.com/NoDP",
+        email: emailInputController.text,
+        password: pwdInputController.text);
+    (VxState.store as MyStore).userInfo = userDetails;
+    Response response = await Dio().post(
+      url,
+      options: Options(headers: {
+        HttpHeaders.contentTypeHeader: "application/json",
+      }),
+      data: userDetails.toJson(),
+    );
+    print(response.data);
+  }
+
+  Future<String> uploadImage(File file, String url) async {
+    Response response;
+    print(file.runtimeType);
+    String fileName = file.path.split('/').last;
+    FormData formData = FormData.fromMap({
+      "image": await MultipartFile.fromFile(file.path, filename: fileName),
+    });
+
+    print(url);
+    response = await Dio().post(url, data: formData);
+    return response.data;
   }
 
   void moveToHome() async {
@@ -30,6 +79,7 @@ class _SignUpPageState extends State<SignUpPage> {
       setState(() {
         forAnimation = true;
       });
+
       print("here also");
       try {
         UserCredential userCredential = await FirebaseAuth.instance
@@ -45,10 +95,87 @@ class _SignUpPageState extends State<SignUpPage> {
       } catch (e) {
         print(e);
       }
+      String url =
+          "http://65.0.21.216/uploaduserImage/" + emailInputController.text;
+      if (imageAvlb) await uploadImage(selectedImage, url);
+      await uploadUserData("http://65.0.21.216/addUser");
+      print("logged");
     }
+
     setState(() {
       forAnimation = false;
     });
+  }
+
+  _imgFromCamera() async {
+    PickedFile? pickedFile = await _picker.getImage(
+      source: ImageSource.camera,
+      imageQuality: 50,
+      // maxWidth: 1800,
+      // maxHeight: 1800,
+    );
+    File imageFile = File(pickedFile!.path);
+    setState(() {
+      selectedImage = imageFile;
+      imageAvlb = true;
+    });
+  }
+
+  _imgFromGallery() async {
+    PickedFile? image = await _picker.getImage(
+      source: ImageSource.gallery,
+      imageQuality: 50,
+      maxWidth: 1800,
+      maxHeight: 1800,
+    );
+    File imageFile = File(image!.path);
+
+    setState(() {
+      selectedImage = imageFile;
+      imageAvlb = true;
+    });
+  }
+
+  void _showPicker(context) {
+    showModalBottomSheet(
+        context: context,
+        builder: (BuildContext bc) {
+          return SafeArea(
+            child: Container(
+              child: new Wrap(
+                children: <Widget>[
+                  new ListTile(
+                      leading: new Icon(Icons.photo_library),
+                      title: new Text('Photo Library'),
+                      onTap: () {
+                        _imgFromGallery();
+                        Navigator.of(context).pop();
+                      }),
+                  new ListTile(
+                    leading: new Icon(Icons.photo_camera),
+                    title: new Text('Camera'),
+                    onTap: () {
+                      _imgFromCamera();
+                      Navigator.of(context).pop();
+                    },
+                  ),
+                  new ListTile(
+                    leading: new Icon(Icons.cancel_sharp),
+                    title: new Text('Remove Image'),
+                    onTap: () {
+                      // _imgFromCamera();
+                      setState(() {
+                        imageAvlb = false;
+                      });
+
+                      Navigator.of(context).pop();
+                    },
+                  ),
+                ],
+              ),
+            ),
+          );
+        });
   }
 
   @override
@@ -71,31 +198,73 @@ class _SignUpPageState extends State<SignUpPage> {
                       .color(context.primaryColor)
                       .xl2
                       .make(),
+                  Center(
+                    child: GestureDetector(
+                      onTap: () {
+                        _showPicker(context);
+                      },
+                      child: imageAvlb
+                          ? CircleAvatar(
+                              backgroundImage: FileImage(
+                                selectedImage,
+                              ),
+                              radius: 50,
+                            )
+                          : CircleAvatar(
+                              child: Icon(FontAwesomeIcons.camera),
+                              radius: 50,
+                            ),
+                    ),
+                  ).pOnly(top: 20, bottom: 20),
                   CupertinoFormSection(
                     backgroundColor: Colors.transparent,
                     header: "Personal Details".text.make(),
                     children: [
                       CupertinoFormRow(
                         //padding: EdgeInsets.only(left: 0),
-
                         child: CupertinoTextFormFieldRow(
+                          controller: nameController,
                           validator: (value) {
                             if (value!.isEmpty) {
-                              return "Username can't be empty";
+                              return "Name can't be empty";
                             }
                             return null;
                           },
-                          placeholder: "Enter name",
-                          prefix: "Name".text.make(),
+                          placeholder: "Name",
+                          // prefix: "Name".text.make(),
                           padding: EdgeInsets.only(left: 0),
                         ),
                       ),
                       CupertinoFormRow(
                         //padding: EdgeInsets.only(left: 0),
                         child: CupertinoTextFormFieldRow(
+                          controller: aboutController,
+                          validator: (value) {
+                            if (value!.isEmpty) {
+                              return "About can't be empty";
+                            }
+                            return null;
+                          },
+                          placeholder: "About",
+                          maxLines: 3,
+                          maxLength: 100,
+                          // prefix: "Username".text.make(),
+                          padding: EdgeInsets.only(left: 0),
+                        ),
+                      ),
+                    ],
+                  ),
+                  20.heightBox,
+                  CupertinoFormSection(
+                    backgroundColor: Colors.transparent,
+                    header: "Login Details".text.make(),
+                    children: [
+                      CupertinoFormRow(
+                        //padding: EdgeInsets.only(left: 0),
+                        child: CupertinoTextFormFieldRow(
                           controller: emailInputController,
-                          placeholder: "Enter Email",
-                          prefix: "Email".text.make(),
+                          placeholder: "Email",
+                          // prefix: "Email".text.make(),
                           padding: EdgeInsets.only(left: 0),
                           keyboardType: TextInputType.emailAddress,
                           validator: (value) {
@@ -104,27 +273,6 @@ class _SignUpPageState extends State<SignUpPage> {
                             }
                             return null;
                           },
-                        ),
-                      )
-                    ],
-                  ),
-                  20.heightBox,
-                  CupertinoFormSection(
-                    backgroundColor: Colors.transparent,
-                    header: "User Details".text.make(),
-                    children: [
-                      CupertinoFormRow(
-                        //padding: EdgeInsets.only(left: 0),
-                        child: CupertinoTextFormFieldRow(
-                          validator: (value) {
-                            if (value!.isEmpty) {
-                              return "Username can't be empty";
-                            }
-                            return null;
-                          },
-                          placeholder: "Enter username",
-                          prefix: "Username".text.make(),
-                          padding: EdgeInsets.only(left: 0),
                         ),
                       ),
                       CupertinoFormRow(
@@ -139,28 +287,31 @@ class _SignUpPageState extends State<SignUpPage> {
                             return null;
                           },
                           controller: pwdInputController,
-                          placeholder: "Enter Password",
+                          placeholder: "Password",
                           obscureText: true,
-                          prefix: "Password".text.make(),
+                          // prefix: "Password".text.make(),
                           padding: EdgeInsets.only(left: 0),
                         ),
                       ),
                       CupertinoFormRow(
                         //padding: EdgeInsets.only(left: 0),
                         child: CupertinoTextFormFieldRow(
+                          controller: cnfpwdController,
                           validator: (value) {
-                            if (value!.isEmpty ||
-                                value != pwdInputController.text) {
-                              return "Confirm Password didn't match with Password provided above";
+                            if (value!.isEmpty) {
+                              return "Required";
                             } else if (value.length < 6) {
                               return "Password length should be atleast 6.";
+                            } else if (pwdInputController.text !=
+                                cnfpwdController.text) {
+                              return "Confirm password should be same as password";
                             }
                             return null;
                           },
-                          placeholder: "Enter Password",
+                          placeholder: "Confirm Password",
                           //placeholderStyle: TextStyle(fontSize: 12),
                           obscureText: true,
-                          prefix: "Confirm Password".text.make(),
+                          // prefix: "Confirm Password".text.make(),
                           padding: EdgeInsets.only(left: 0),
                         ),
                       )

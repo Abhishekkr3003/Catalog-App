@@ -1,8 +1,9 @@
 import 'dart:collection';
 import 'dart:convert';
 
-import 'package:flutter_catalog/Core/Store.dart';
 import 'package:velocity_x/velocity_x.dart';
+
+import 'package:flutter_catalog/Core/Store.dart';
 
 class CatalogModel {
   static List<Item>? items;
@@ -22,7 +23,8 @@ class Item {
   final String category;
   final String image;
   final num price;
-
+  final String seller;
+  final String timeUsed;
   Item({
     required this.id,
     required this.name,
@@ -30,7 +32,11 @@ class Item {
     required this.category,
     required this.image,
     required this.price,
+    required this.seller,
+    required this.timeUsed,
   });
+
+  
 
   Item copyWith({
     int? id,
@@ -39,6 +45,8 @@ class Item {
     String? category,
     String? image,
     num? price,
+    String? seller,
+    String? timeUsed,
   }) {
     return Item(
       id: id ?? this.id,
@@ -47,6 +55,8 @@ class Item {
       category: category ?? this.category,
       image: image ?? this.image,
       price: price ?? this.price,
+      seller: seller ?? this.seller,
+      timeUsed: timeUsed ?? this.timeUsed,
     );
   }
 
@@ -55,20 +65,24 @@ class Item {
       'id': id,
       'name': name,
       'desc': desc,
-      'color': category,
+      'category': category,
       'image': image,
       'price': price,
+      'seller': seller,
+      'timeUsed': timeUsed,
     };
   }
 
   factory Item.fromMap(Map<String, dynamic> map) {
     return Item(
       id: map['id'],
-      name: map['title'],
-      desc: map['description'],
+      name: map['name'],
+      desc: map['desc'],
       category: map['category'],
       image: map['image'],
       price: map['price'],
+      seller: map['seller'],
+      timeUsed: map['timeUsed'],
     );
   }
 
@@ -78,30 +92,34 @@ class Item {
 
   @override
   String toString() {
-    return 'Item(id: $id, name: $name, desc: $desc, color: $category, image: $image, price: $price)';
+    return 'Item(id: $id, name: $name, desc: $desc, category: $category, image: $image, price: $price, seller: $seller, timeUsed: $timeUsed)';
   }
 
   @override
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
-
+  
     return other is Item &&
-        other.id == id &&
-        other.name == name &&
-        other.desc == desc &&
-        other.category == category&&
-        other.image == image &&
-        other.price == price;
+      other.id == id &&
+      other.name == name &&
+      other.desc == desc &&
+      other.category == category &&
+      other.image == image &&
+      other.price == price &&
+      other.seller == seller &&
+      other.timeUsed == timeUsed;
   }
 
   @override
   int get hashCode {
     return id.hashCode ^
-        name.hashCode ^
-        desc.hashCode ^
-        category.hashCode ^
-        image.hashCode ^
-        price.hashCode;
+      name.hashCode ^
+      desc.hashCode ^
+      category.hashCode ^
+      image.hashCode ^
+      price.hashCode ^
+      seller.hashCode ^
+      timeUsed.hashCode;
   }
 }
 

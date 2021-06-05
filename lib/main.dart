@@ -7,7 +7,9 @@ import 'package:flutter_catalog/pages/SellItem.dart';
 import 'package:flutter_catalog/pages/SignUpPage.dart';
 import 'package:flutter_catalog/pages/SplashScreen.dart';
 import 'package:flutter_catalog/pages/homepageview.dart';
+import 'package:flutter_catalog/pages/imageTester.dart';
 import 'package:flutter_catalog/pages/loginPage.dart';
+import 'package:flutter_catalog/pages/profile.dart';
 import 'package:flutter_catalog/utils/routes.dart';
 import 'package:flutter_catalog/utils/themes.dart';
 import 'package:velocity_x/velocity_x.dart';
@@ -50,7 +52,7 @@ class _MyAppState extends State<MyApp> {
       theme: MyThemes.lightTheme(context),
       navigatorKey: _navigatorKey,
       darkTheme: MyThemes.darkTheme(context),
-      // home: SellItem(),
+      // home: ImageSelector(),
       home: FutureBuilder(
           future: _initFirebaseSdk,
           builder: (_, snapshot) {
@@ -73,6 +75,7 @@ class _MyAppState extends State<MyApp> {
         MyRoutes.splashSceen: (context) => SplashScreen(),
         MyRoutes.homeScreenShower: (context) => HomeScreenViewer(),
         MyRoutes.sellItemPage: (context) => SellItem(),
+        MyRoutes.profilePage: (context) => ProfilePage(),
       },
     );
   }

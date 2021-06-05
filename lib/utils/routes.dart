@@ -7,4 +7,5 @@ class MyRoutes {
   static String splashSceen = "/spashScreen";
   static String homeScreenShower = "/homeScreenShower";
   static String sellItemPage = "/sellItemPage";
+  static String profilePage = "/profilePage";
 }

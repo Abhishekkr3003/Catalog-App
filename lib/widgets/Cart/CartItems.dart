@@ -21,7 +21,7 @@ class CartItems extends StatelessWidget {
                 context,
                 MaterialPageRoute(
                   builder: (context) => ProductDetails(
-                    item: _cartModel.items[index],
+                    item: _cartModel.items[index], index: index
                   ),
                 ),
               ),

@@ -1,5 +1,10 @@
+import 'dart:convert';
+import 'dart:io';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_catalog/Core/Store.dart';
+import 'package:flutter_catalog/models/userData.dart';
 import 'package:flutter_catalog/utils/routes.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:velocity_x/velocity_x.dart';
@@ -11,20 +16,46 @@ class DrawerScreen extends StatefulWidget {
 }
 
 class _DrawerScreenState extends State<DrawerScreen> {
-  void onTapFuntions(String option) {
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+  String? get email => _auth.currentUser!.email;
+  loadData() async {
+    print("Email: " + email.toString());
+    String cloudIp = "65.0.21.216";
+    try {
+      var client = HttpClient();
+      await client
+          .get(cloudIp, 80, "/getUser/" + email.toString())
+          .then((HttpClientRequest request) {
+        return request.close();
+      }).then((HttpClientResponse response) {
+        response.transform(utf8.decoder).listen((contents) {
+          var _response = jsonDecode(contents) as List;
+          print(_response);
+          (VxState.store as MyStore).userInfo =
+              UserDetails.fromMap(_response[0]);
+          print((VxState.store as MyStore).userInfo.dpURL);
+        });
+      });
+    } catch (e) {
+      print(e);
+      return null;
+    }
+  }
+
+  Future<void> onTapFuntions(String option) async {
     if (option == 'Cart') {
       Navigator.pushNamed(context, MyRoutes.cartPage);
     } else if (option == 'Donation') {
       Fluttertoast.showToast(msg: "Not available");
     } else if (option == 'Add Product') {
       Navigator.pushNamed(context, MyRoutes.sellItemPage);
-      Fluttertoast.showToast(msg: "Not available");
     } else if (option == 'Favorites') {
       Fluttertoast.showToast(msg: "Not available");
     } else if (option == 'Messages') {
       Fluttertoast.showToast(msg: "Not available");
     } else if (option == 'Profile') {
-      Fluttertoast.showToast(msg: "Not available");
+      await loadData();
+      Navigator.pushNamed(context, MyRoutes.profilePage);
     }
   }
 

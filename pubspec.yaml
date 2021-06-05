@@ -36,6 +36,8 @@ dependencies:
   firebase_core: ^1.2.0
   cloud_firestore: ^2.2.0
   font_awesome_flutter: ^9.0.0
+  image_picker: ^0.8.0+1
+  dio: ^4.0.0
 
 dev_dependencies:
   flutter_test:

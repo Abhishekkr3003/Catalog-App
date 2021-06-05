@@ -9,16 +9,19 @@ import 'package:velocity_x/velocity_x.dart';
 
 class ProductDetails extends StatelessWidget {
   final Item item;
+  final int index;
 
-  const ProductDetails({Key? key, required this.item}) : super(key: key);
+  const ProductDetails({Key? key, required this.item, required this.index})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     var initial;
     var distance;
     final _cart = (VxState.store as MyStore).cart;
+    final itemList = (VxState.store as MyStore).items;
     return Scaffold(
-      backgroundColor: context.canvasColor,
+      backgroundColor: context.cardColor,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         actions: [
@@ -48,79 +51,97 @@ class ProductDetails extends StatelessWidget {
           ).pOnly(right: 20, top: 10)
         ],
       ),
-      body: SingleChildScrollView(
-        child: SafeArea(
-          bottom: false,
-          child: Column(
-            children: [
-              Hero(
-                tag: Key(item.id.toString()),
-                child: Image.network(
-                  item.image,
+      body: GestureDetector(
+        onPanStart: (DragStartDetails details) {
+          initial = details.globalPosition.dx;
+        },
+        onPanUpdate: (DragUpdateDetails details) {
+          distance = details.globalPosition.dx - initial;
+        },
+        onPanEnd: (DragEndDetails details) {
+          initial = 0.0;
+          print(distance);
+          if (distance < 0) {
+            print("Left Gesture");
+            if (itemList!.length - 1 > index) {
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => ProductDetails(
+                      item: itemList[index + 1], index: index + 1),
                 ),
-              ).h32(context).p16(),
-              VxArc(
-                edge: VxEdge.TOP,
-                arcType: VxArcType.CONVEY,
-                child: Container(
-                  width: context.screenWidth,
-                  child: GestureDetector(
-                    onPanStart: (DragStartDetails details) {
-                      initial = details.globalPosition.dx;
-                    },
-                    onPanUpdate: (DragUpdateDetails details) {
-                      distance = details.globalPosition.dx - initial;
-                    },
-                    onPanEnd: (DragEndDetails details) {
-                      initial = 0.0;
-                      print(distance);
-                      if (distance < 0) {
-                        print("Left Gesture");
-                      } else {
-                        Navigator.pop(context);
-                      }
-                    },
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        "${item.name}"
-                            .text
-                            .bold
-                            .xl3
-                            .align(TextAlign.center)
-                            .color(context.accentColor)
-                            .make(),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            "Category:".text.xl.bold.make(),
-                            "${item.category.toUpperCase()}".text.xl.make(),
-                          ],
-                        ).py(10),
-                        Text(
-                          "${item.desc}",
-                          textAlign: TextAlign.justify,
-                          style: Theme.of(context).textTheme.caption!.merge(
-                                TextStyle(fontSize: 15),
-                              ),
-                        ),
-                        "At taki mata edfas ssssss sssss sssss ssssss sssssssssssssss amet no sanctus accusam. Takimata magna consetetur sed sit ipsum est. Dolor amet eirmod est gubergren sanctus clita takimata. Kasd erat tempor et."
-                            .text
-                            .justify
-                            .make(),
-                      ],
-                    ).pOnly(top: 50, left: 16, right: 16),
+              );
+            } else {
+              Navigator.pop(context);
+            }
+          } else {
+            if (index > 0) {
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => ProductDetails(
+                      item: itemList![index - 1], index: index - 1),
+                ),
+              );
+            } else {
+              Navigator.pop(context);
+            }
+          }
+        },
+        child: SingleChildScrollView(
+          child: SafeArea(
+            bottom: false,
+            child: Column(
+              children: [
+                Hero(
+                  tag: Key(item.id.toString()),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(20),
+                    child: Image.network(
+                      item.image,
+                    ),
                   ),
-                  color: context.cardColor,
-                ),
-                height: 30,
-              )
-            ],
+                ).h32(context).p16(),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    "${item.name}"
+                        .text
+                        .bold
+                        .xl3
+                        .align(TextAlign.center)
+                        .color(context.accentColor)
+                        .make(),
+                    Text(
+                      "${item.desc}",
+                      textAlign: TextAlign.justify,
+                      style: Theme.of(context).textTheme.caption!.merge(
+                            TextStyle(fontSize: 15),
+                          ),
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        "Category:".text.xl.bold.make(),
+                        "${item.category.toUpperCase()}".text.xl.make(),
+                      ],
+                    ).py(5),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        "Time Used:".text.xl.bold.make(),
+                        "${item.timeUsed}".text.xl.make(),
+                      ],
+                    ).py(5),
+                  ],
+                ).pOnly(top: 50, left: 16, right: 16)
+              ],
+            ),
           ),
         ),
       ),
       bottomNavigationBar: Container(
-        color: context.cardColor,
+        color: context.canvasColor,
         child: ButtonBar(
           alignment: MainAxisAlignment.spaceBetween,
           buttonPadding: Vx.mH0,

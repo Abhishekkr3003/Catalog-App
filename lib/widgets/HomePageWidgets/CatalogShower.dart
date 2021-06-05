@@ -20,9 +20,8 @@ class CatalogShower extends StatelessWidget {
             onTap: () => Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => ProductDetails(
-                  item: store.items![index],
-                ),
+                builder: (context) =>
+                    ProductDetails(item: store.items![index], index: index),
               ),
             ),
           );

@@ -1,7 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_catalog/utils/routes.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:velocity_x/velocity_x.dart';
+
+final FirebaseAuth _auth = FirebaseAuth.instance;
 
 class LoginPage extends StatefulWidget {
   @override
@@ -22,24 +25,40 @@ class _LoginPageState extends State<LoginPage> {
     super.initState();
   }
 
+  Future<void> _signInWithEmailAndPassword() async {
+    try {
+      User? user = (await _auth.signInWithEmailAndPassword(
+        email: emailInputController.text,
+        password: pwdInputController.text,
+      ))
+          .user;
+
+      Fluttertoast.showToast(msg: "${user!.email} logged in.");
+    } catch (e) {
+      print(e);
+    }
+  }
+
   void moveToHome() async {
     if (_formKey.currentState!.validate()) {
       setState(() {
         forAnimation = true;
       });
-      try {
-        UserCredential userCredential =
-            await FirebaseAuth.instance.signInWithEmailAndPassword(
-          email: emailInputController.text,
-          password: pwdInputController.text,
-        );
-      } on FirebaseAuthException catch (e) {
-        if (e.code == 'user-not-found') {
-          print('No user found for that email.');
-        } else if (e.code == 'wrong-password') {
-          print('Wrong password provided for that user.');
-        }
-      }
+      _signInWithEmailAndPassword();
+      // try {
+      //   UserCredential userCredential =
+      //       await FirebaseAuth.instance.signInWithEmailAndPassword(
+      //     email: emailInputController.text,
+      //     password: pwdInputController.text,
+      //   ).User;
+
+      // } on FirebaseAuthException catch (e) {
+      //   if (e.code == 'user-not-found') {
+      //     print('No user found for that email.');
+      //   } else if (e.code == 'wrong-password') {
+      //     print('Wrong password provided for that user.');
+      //   }
+      // }
       //await Navigator.pushNamed(context, MyRoutes.homePage);
     }
     setState(() {

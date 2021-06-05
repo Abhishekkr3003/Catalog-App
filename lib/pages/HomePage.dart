@@ -24,7 +24,7 @@ class _HomePageState extends State<HomePage> {
   bool isDrawerOpen = false;
 
   var toBePrinted = "Android App!";
-  String cloudIp = "13.127.100.81";
+  String cloudIp = "65.0.21.216";
 
   loadData() async {
     //await Future.delayed(Duration(seconds: 5));
@@ -157,7 +157,7 @@ class _HomePageState extends State<HomePage> {
               ).pOnly(top: 12, left: 20, right: 20),
               20.heightBox,
               (CatalogModel.items != null && CatalogModel.items!.length > 0)
-                  ? CatalogShower().pOnly(left: 20, right: 20)
+                  ? CatalogShower().pOnly(left: 20, right: 20).expand()
                   : Center(
                       child: CircularProgressIndicator(
                         color: context.accentColor,
