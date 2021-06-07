@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_catalog/models/Cart.dart';
-import 'package:flutter_catalog/models/catalog.dart';
+import '../../models/Cart.dart';
+import '../../models/catalog.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:velocity_x/velocity_x.dart';
 

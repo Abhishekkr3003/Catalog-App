@@ -1,9 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_catalog/Core/Store.dart';
-import 'package:flutter_catalog/models/Cart.dart';
-import 'package:flutter_catalog/utils/routes.dart';
-import 'package:flutter_catalog/utils/themes.dart';
+import '../../Core/Store.dart';
+import '../../models/Cart.dart';
+import '../../utils/routes.dart';
 import 'package:velocity_x/velocity_x.dart';
 
 class CatalogHeader extends StatelessWidget {

@@ -33,9 +33,10 @@ class _LoginPageState extends State<LoginPage> {
       ))
           .user;
 
-      Fluttertoast.showToast(msg: "${user!.email} logged in.");
+      Fluttertoast.showToast(
+          msg: "User: ${user!.email} successfully logged in.");
     } catch (e) {
-      print(e);
+      Fluttertoast.showToast(msg: e.toString());
     }
   }
 
@@ -44,7 +45,7 @@ class _LoginPageState extends State<LoginPage> {
       setState(() {
         forAnimation = true;
       });
-      _signInWithEmailAndPassword();
+      await _signInWithEmailAndPassword();
       // try {
       //   UserCredential userCredential =
       //       await FirebaseAuth.instance.signInWithEmailAndPassword(

@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_catalog/models/catalog.dart';
-import 'package:flutter_catalog/widgets/Cart/RemoveFromCart.dart';
+import '../../models/catalog.dart';
+import 'RemoveFromCart.dart';
 import 'package:velocity_x/velocity_x.dart';
 
 class CartProductInfo extends StatelessWidget {

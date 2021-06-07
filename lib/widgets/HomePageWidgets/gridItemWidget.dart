@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_catalog/models/catalog.dart';
+import '../../models/catalog.dart';
 
 class GridItemWidget extends StatelessWidget {
   final Item item;

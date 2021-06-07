@@ -1,10 +1,6 @@
-import 'dart:convert';
-import 'dart:io';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_catalog/Core/Store.dart';
-import 'package:flutter_catalog/models/userData.dart';
 import 'package:velocity_x/velocity_x.dart';
 
 class ProfilePage extends StatefulWidget {

@@ -1,19 +1,18 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_catalog/Core/Store.dart';
-import 'package:flutter_catalog/pages/CartPage.dart';
-import 'package:flutter_catalog/pages/SellItem.dart';
-import 'package:flutter_catalog/pages/SignUpPage.dart';
-import 'package:flutter_catalog/pages/SplashScreen.dart';
-import 'package:flutter_catalog/pages/homepageview.dart';
-import 'package:flutter_catalog/pages/imageTester.dart';
-import 'package:flutter_catalog/pages/loginPage.dart';
-import 'package:flutter_catalog/pages/profile.dart';
-import 'package:flutter_catalog/utils/routes.dart';
-import 'package:flutter_catalog/utils/themes.dart';
 import 'package:velocity_x/velocity_x.dart';
+import 'pages/homepageview.dart';
+import 'pages/loginPage.dart';
+import 'pages/profile.dart';
+import 'utils/routes.dart';
+import 'utils/themes.dart';
+import 'Core/Store.dart';
+import 'pages/CartPage.dart';
 import 'pages/HomePage.dart';
+import 'pages/SellItem.dart';
+import 'pages/SignUpPage.dart';
+import 'pages/SplashScreen.dart';
 
 void main(List<String> args) {
   WidgetsFlutterBinding.ensureInitialized();

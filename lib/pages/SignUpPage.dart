@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -95,10 +94,10 @@ class _SignUpPageState extends State<SignUpPage> {
       } catch (e) {
         print(e);
       }
-      String url =
-          "http://65.0.21.216/uploaduserImage/" + emailInputController.text;
+      String url = "http://api-cataloap.herokuapp.com/uploaduserImage/" +
+          emailInputController.text;
       if (imageAvlb) await uploadImage(selectedImage, url);
-      await uploadUserData("http://65.0.21.216/addUser");
+      await uploadUserData("http://api-cataloap.herokuapp.com/addUser");
       print("logged");
     }
 
@@ -114,11 +113,13 @@ class _SignUpPageState extends State<SignUpPage> {
       // maxWidth: 1800,
       // maxHeight: 1800,
     );
-    File imageFile = File(pickedFile!.path);
-    setState(() {
-      selectedImage = imageFile;
-      imageAvlb = true;
-    });
+    if (pickedFile != null) {
+      File imageFile = File(pickedFile.path);
+      setState(() {
+        selectedImage = imageFile;
+        imageAvlb = true;
+      });
+    }
   }
 
   _imgFromGallery() async {
@@ -128,12 +129,14 @@ class _SignUpPageState extends State<SignUpPage> {
       maxWidth: 1800,
       maxHeight: 1800,
     );
-    File imageFile = File(image!.path);
+    if (image != null) {
+      File imageFile = File(image.path);
 
-    setState(() {
-      selectedImage = imageFile;
-      imageAvlb = true;
-    });
+      setState(() {
+        selectedImage = imageFile;
+        imageAvlb = true;
+      });
+    }
   }
 
   void _showPicker(context) {

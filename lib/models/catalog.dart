@@ -1,8 +1,5 @@
-import 'dart:collection';
 import 'dart:convert';
-
 import 'package:velocity_x/velocity_x.dart';
-
 import 'package:flutter_catalog/Core/Store.dart';
 
 class CatalogModel {

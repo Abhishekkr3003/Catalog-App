@@ -24,7 +24,7 @@ class _HomePageState extends State<HomePage> {
   bool isDrawerOpen = false;
 
   var toBePrinted = "Android App!";
-  String cloudIp = "65.0.21.216";
+  String cloudIp = "api-cataloap.herokuapp.com";
 
   loadData() async {
     //await Future.delayed(Duration(seconds: 5));

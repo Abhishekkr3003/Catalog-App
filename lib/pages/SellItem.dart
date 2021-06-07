@@ -17,6 +17,7 @@ class SellItem extends StatefulWidget {
 }
 
 class _SellItemState extends State<SellItem> {
+  bool addingProduct = false;
   final FirebaseAuth _auth = FirebaseAuth.instance;
   String? get email => _auth.currentUser!.email;
   bool iAgree = false;
@@ -42,7 +43,7 @@ class _SellItemState extends State<SellItem> {
     super.initState();
   }
 
-  String cloudIp = "65.0.21.216";
+  String cloudIp = "api-cataloap.herokuapp.com";
   Future<int?> getID() async {
     var _response;
     try {
@@ -117,17 +118,23 @@ class _SellItemState extends State<SellItem> {
       setState(() {
         forAnimation = true;
       });
+
+      setState(() {
+        addingProduct = true;
+      });
       while (_id == 0) _id = await getID() as int;
       print(_id);
       print("\n");
       print("here also");
-      String url = "http://65.0.21.216/uploadProductImage/" + "$_id";
+      String url =
+          "http://api-cataloap.herokuapp.com/uploadProductImage/" + "$_id";
       if (imageAvlb) await uploadImage(selectedImage, url);
-      await uploadUserData("http://65.0.21.216/addproduct");
+      await uploadUserData("http://api-cataloap.herokuapp.com/addproduct");
 
       Navigator.pop(context);
       setState(() {
         forAnimation = false;
+        addingProduct = false;
       });
     }
   }
@@ -212,207 +219,213 @@ class _SellItemState extends State<SellItem> {
     return Scaffold(
       backgroundColor: context.canvasColor,
       body: SafeArea(
-        child: Container(
-          padding: Vx.m20,
-          child: SingleChildScrollView(
-            child: Form(
-              key: _formKey2,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      IconButton(
-                          onPressed: () => Navigator.pop(context),
-                          icon: Icon(FontAwesomeIcons.chevronLeft)),
-                      "Seller's Zone"
-                          .text
-                          .color(context.accentColor)
-                          .xl5
-                          .bold
-                          .makeCentered(),
-                    ],
-                  ),
-                  "What you want to sell today?"
-                      .text
-                      .color(context.primaryColor)
-                      .xl2
-                      .makeCentered(),
-                  Center(
-                    child: GestureDetector(
-                      onTap: () {
-                        _showPicker(context);
-                      },
-                      child: imageAvlb
-                          ? CircleAvatar(
-                              backgroundImage: FileImage(
-                                selectedImage,
+        child: addingProduct
+            ? Center(
+                child: CircularProgressIndicator(
+                  color: context.theme.buttonColor,
+                ),
+              )
+            : Container(
+                padding: Vx.m20,
+                child: SingleChildScrollView(
+                  child: Form(
+                    key: _formKey2,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            IconButton(
+                                onPressed: () => Navigator.pop(context),
+                                icon: Icon(FontAwesomeIcons.chevronLeft)),
+                            "Seller's Zone"
+                                .text
+                                .color(context.accentColor)
+                                .xl5
+                                .bold
+                                .makeCentered(),
+                          ],
+                        ),
+                        "What you want to sell today?"
+                            .text
+                            .color(context.primaryColor)
+                            .xl2
+                            .makeCentered(),
+                        Center(
+                          child: GestureDetector(
+                            onTap: () {
+                              _showPicker(context);
+                            },
+                            child: imageAvlb
+                                ? CircleAvatar(
+                                    backgroundImage: FileImage(
+                                      selectedImage,
+                                    ),
+                                    radius: 50,
+                                  )
+                                : CircleAvatar(
+                                    child: Icon(FontAwesomeIcons.camera),
+                                    radius: 50,
+                                  ),
+                          ),
+                        ).pOnly(top: 20, bottom: 20),
+                        CupertinoFormSection(
+                          backgroundColor: Colors.transparent,
+                          header: "Product Details".text.make(),
+                          children: [
+                            CupertinoFormRow(
+                              //padding: EdgeInsets.only(left: 0),
+
+                              child: CupertinoTextFormFieldRow(
+                                controller: nameController,
+                                validator: (value) {
+                                  if (value!.isEmpty) {
+                                    return "Required";
+                                  }
+                                  return null;
+                                },
+                                placeholder: "Product Name",
+                                //prefix: "Name".text.make(),
+                                padding: EdgeInsets.only(left: 0),
                               ),
-                              radius: 50,
-                            )
-                          : CircleAvatar(
-                              child: Icon(FontAwesomeIcons.camera),
-                              radius: 50,
                             ),
-                    ),
-                  ).pOnly(top: 20, bottom: 20),
-                  CupertinoFormSection(
-                    backgroundColor: Colors.transparent,
-                    header: "Product Details".text.make(),
-                    children: [
-                      CupertinoFormRow(
-                        //padding: EdgeInsets.only(left: 0),
+                            CupertinoFormRow(
+                              // helper: "Eg. Men's Fashion"..text.make(),
+                              //padding: EdgeInsets.only(left: 0),
+                              child: CupertinoTextFormFieldRow(
+                                // controller: emailInputController,
+                                placeholder:
+                                    "Category Eg. Men's Clothing, Household, ...",
+                                controller: categoryInputController,
+                                padding: EdgeInsets.only(left: 0),
 
-                        child: CupertinoTextFormFieldRow(
-                          controller: nameController,
-                          validator: (value) {
-                            if (value!.isEmpty) {
-                              return "Required";
-                            }
-                            return null;
-                          },
-                          placeholder: "Product Name",
-                          //prefix: "Name".text.make(),
-                          padding: EdgeInsets.only(left: 0),
-                        ),
-                      ),
-                      CupertinoFormRow(
-                        // helper: "Eg. Men's Fashion"..text.make(),
-                        //padding: EdgeInsets.only(left: 0),
-                        child: CupertinoTextFormFieldRow(
-                          // controller: emailInputController,
-                          placeholder:
-                              "Category Eg. Men's Clothing, Household, ...",
-                          controller: categoryInputController,
-                          padding: EdgeInsets.only(left: 0),
-
-                          validator: (value) {
-                            if (value!.isEmpty) {
-                              return "Required";
-                            }
-                            return null;
-                          },
-                        ),
-                      ),
-                      CupertinoFormRow(
-                        //padding: EdgeInsets.only(left: 0),
-                        child: CupertinoTextFormFieldRow(
-                          // controller: emailInputController,
-                          controller: priceInputController,
-                          placeholder: "Price",
-                          prefix: "\$".text.coolGray400.make(),
-                          padding: EdgeInsets.only(left: 0),
-                          keyboardType: TextInputType.number,
-                          validator: (value) {
-                            if (value!.isEmpty) {
-                              return "Required";
-                            }
-                            try {
-                              int.parse(value);
-                            } catch (e) {
-                              return "Enter numerical value only";
-                            }
-                            return null;
-                          },
-                        ),
-                      ),
-                      CupertinoFormRow(
-                        //padding: EdgeInsets.only(left: 0),
-                        child: CupertinoTextFormFieldRow(
-                          // controller: emailInputController,
-                          placeholder: "How old is this product?",
-                          // prefix: "Email".text.make(),
-                          padding: EdgeInsets.only(left: 0),
-                          controller: timeController,
-                          validator: (value) {
-                            if (value!.isEmpty) {
-                              return "Required";
-                            }
-                            return null;
-                          },
-                        ),
-                      )
-                    ],
-                  ),
-                  20.heightBox,
-                  CupertinoFormSection(
-                    backgroundColor: Colors.transparent,
-                    header: "Description".text.make(),
-                    children: [
-                      CupertinoFormRow(
-                        //padding: EdgeInsets.only(left: 0),
-                        child: CupertinoTextFormFieldRow(
-                          maxLines: 10,
-                          maxLength: 1000,
-                          validator: (value) {
-                            if (value!.isEmpty) {
-                              return "Required";
-                            }
-                            return null;
-                          },
-                          controller: descController,
-                          // placeholder: "Enter username",
-                          // prefix: "Username".text.make(),
-                          padding: EdgeInsets.only(left: 0),
-                        ),
-                      ),
-                    ],
-                  ),
-                  CupertinoFormSection(
-                    backgroundColor: Colors.transparent,
-                    header: "Terms & Conditions".text.make(),
-                    children: [
-                      CupertinoFormRow(
-                        prefix: "I Agree".text.make(),
-                        //padding: EdgeInsets.only(left: 0),
-                        child: CupertinoSwitch(
-                          activeColor: context.theme.buttonColor,
-                          value: iAgree,
-                          onChanged: (value) {
-                            setState(() {
-                              iAgree = value;
-                            });
-                          },
-                        ),
-                      ),
-                    ],
-                  ),
-                  10.heightBox,
-                  Center(
-                    child: Material(
-                      color: context.theme.buttonColor,
-                      borderRadius:
-                          BorderRadius.circular(forAnimation ? 50 : 50),
-                      child: iAgree
-                          ? InkWell(
-                              onTap: () => moveToHome(),
-                              child: AnimatedContainer(
-                                duration: Duration(seconds: 1),
-                                alignment: Alignment.center,
-                                child: forAnimation
-                                    ? Icon(
-                                        Icons.done,
-                                        color: Colors.white,
-                                      )
-                                    : Icon(
-                                        CupertinoIcons.add,
-                                        size: 40,
-                                        color: Colors.white,
-                                      ),
-                                width: forAnimation ? 50 : 50,
-                                height: 50,
+                                validator: (value) {
+                                  if (value!.isEmpty) {
+                                    return "Required";
+                                  }
+                                  return null;
+                                },
+                              ),
+                            ),
+                            CupertinoFormRow(
+                              //padding: EdgeInsets.only(left: 0),
+                              child: CupertinoTextFormFieldRow(
+                                // controller: emailInputController,
+                                controller: priceInputController,
+                                placeholder: "Price",
+                                prefix: "\$".text.coolGray400.make(),
+                                padding: EdgeInsets.only(left: 0),
+                                keyboardType: TextInputType.number,
+                                validator: (value) {
+                                  if (value!.isEmpty) {
+                                    return "Required";
+                                  }
+                                  try {
+                                    int.parse(value);
+                                  } catch (e) {
+                                    return "Enter numerical value only";
+                                  }
+                                  return null;
+                                },
+                              ),
+                            ),
+                            CupertinoFormRow(
+                              //padding: EdgeInsets.only(left: 0),
+                              child: CupertinoTextFormFieldRow(
+                                // controller: emailInputController,
+                                placeholder: "How old is this product?",
+                                // prefix: "Email".text.make(),
+                                padding: EdgeInsets.only(left: 0),
+                                controller: timeController,
+                                validator: (value) {
+                                  if (value!.isEmpty) {
+                                    return "Required";
+                                  }
+                                  return null;
+                                },
                               ),
                             )
-                          : null,
+                          ],
+                        ),
+                        20.heightBox,
+                        CupertinoFormSection(
+                          backgroundColor: Colors.transparent,
+                          header: "Description".text.make(),
+                          children: [
+                            CupertinoFormRow(
+                              //padding: EdgeInsets.only(left: 0),
+                              child: CupertinoTextFormFieldRow(
+                                maxLines: 10,
+                                maxLength: 1000,
+                                validator: (value) {
+                                  if (value!.isEmpty) {
+                                    return "Required";
+                                  }
+                                  return null;
+                                },
+                                controller: descController,
+                                // placeholder: "Enter username",
+                                // prefix: "Username".text.make(),
+                                padding: EdgeInsets.only(left: 0),
+                              ),
+                            ),
+                          ],
+                        ),
+                        CupertinoFormSection(
+                          backgroundColor: Colors.transparent,
+                          header: "Terms & Conditions".text.make(),
+                          children: [
+                            CupertinoFormRow(
+                              prefix: "I Agree".text.make(),
+                              //padding: EdgeInsets.only(left: 0),
+                              child: CupertinoSwitch(
+                                activeColor: context.theme.buttonColor,
+                                value: iAgree,
+                                onChanged: (value) {
+                                  setState(() {
+                                    iAgree = value;
+                                  });
+                                },
+                              ),
+                            ),
+                          ],
+                        ),
+                        10.heightBox,
+                        Center(
+                          child: Material(
+                            color: context.theme.buttonColor,
+                            borderRadius:
+                                BorderRadius.circular(forAnimation ? 50 : 50),
+                            child: iAgree
+                                ? InkWell(
+                                    onTap: () => moveToHome(),
+                                    child: AnimatedContainer(
+                                      duration: Duration(seconds: 1),
+                                      alignment: Alignment.center,
+                                      child: forAnimation
+                                          ? Icon(
+                                              Icons.done,
+                                              color: Colors.white,
+                                            )
+                                          : Icon(
+                                              CupertinoIcons.add,
+                                              size: 40,
+                                              color: Colors.white,
+                                            ),
+                                      width: forAnimation ? 50 : 50,
+                                      height: 50,
+                                    ),
+                                  )
+                                : null,
+                          ),
+                        ),
+                      ],
                     ),
                   ),
-                ],
+                ),
               ),
-            ),
-          ),
-        ),
       ),
     );
   }
